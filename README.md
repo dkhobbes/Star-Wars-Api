@@ -1,1 +1,12 @@
-# Star-Wars-Api
+
+
+## Setup
+
+`$ npm install`
+
+
+## Running the Project
+
+```
+$ gulp
+```
