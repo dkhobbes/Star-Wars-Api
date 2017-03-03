@@ -121,24 +121,139 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 if (window.SWRouter === undefined) {
   window.SWRouter = {};
 }
+
 (function () {
-  var FilmComponent = function (_React$Component) {
-    _inherits(FilmComponent, _React$Component);
+  var FilmComponentItem = function (_React$Component) {
+    _inherits(FilmComponentItem, _React$Component);
+
+    function FilmComponentItem() {
+      _classCallCheck(this, FilmComponentItem);
+
+      var _this = _possibleConstructorReturn(this, (FilmComponentItem.__proto__ || Object.getPrototypeOf(FilmComponentItem)).call(this));
+
+      _this.state = {
+        isSelected: false
+      };
+      return _this;
+    }
+
+    _createClass(FilmComponentItem, [{
+      key: 'toggle',
+      value: function toggle() {
+        console.log('hi');
+        this.setState({
+          isSelected: !this.state.isSelected
+        });
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this2 = this;
+
+        var currentClass = 'planet';
+        var extraInfo;
+
+        var selectedClass;
+        if (this.state.isSelected) {
+          currentClass += ' on';
+
+          extraInfo = React.createElement(
+            'div',
+            null,
+            React.createElement('img', { src: 'https://s-media-cache-ak0.pinimg.com/736x/58/19/d9/5819d950c07b93e41f314655838038dc.jpg', className: 'sw-logo' }),
+            React.createElement(
+              'div',
+              { className: 'climate' },
+              'Climate: ',
+              this.props.planet.climate
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Diameter: ',
+              this.props.planet.release_date
+            )
+          );
+        }
+
+        return React.createElement(
+          'li',
+          { className: currentClass, onClick: function onClick() {
+              _this2.toggle();
+            } },
+          React.createElement(
+            'div',
+            { className: 'name' },
+            this.props.films.title
+          ),
+          extraInfo
+        );
+      }
+    }]);
+
+    return FilmComponentItem;
+  }(React.Component);
+
+  var FilmComponent = function (_React$Component2) {
+    _inherits(FilmComponent, _React$Component2);
 
     function FilmComponent() {
       _classCallCheck(this, FilmComponent);
 
-      return _possibleConstructorReturn(this, (FilmComponent.__proto__ || Object.getPrototypeOf(FilmComponent)).apply(this, arguments));
+      return _possibleConstructorReturn(this, (FilmComponent.__proto__ || Object.getPrototypeOf(FilmComponent)).call(this));
     }
 
     _createClass(FilmComponent, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        console.log('AppComponent.ComponentDidMount');
+        this.getTheData();
+      }
+    }, {
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        console.log('AppComponent.ComponentWillUnmount');
+      }
+    }, {
+      key: 'getTheData',
+      value: function getTheData() {
+        console.log('load the planets');
+      }
+    }, {
+      key: 'getTheData',
+      value: function getTheData() {
+        var _this4 = this;
+
+        $.ajax({
+          url: 'http://swapi.co/api/films/'
+        }).done(function (data) {
+          console.log('got data', data);
+
+          _this4.setState({
+            apiResult: data
+          });
+        });
+      }
+    }, {
       key: 'render',
       value: function render() {
-        console.log('rendering FilmComponent');
+        console.log('render', this.state);
+        var theList;
+
+        if (this.state != null) {
+          theList = React.createElement(
+            'ul',
+            { className: 'theList' },
+            this.state.apiResult.results.map(function (films, index) {
+              return React.createElement(PlanetListItem, { key: index, films: films });
+            })
+          );
+        }
 
         return React.createElement(
           'div',
-          null,
+          { className: 'planet-list' },
+          React.createElement('div', { className: 'image-holder' }),
           React.createElement(
             'header',
             null,
@@ -207,9 +322,24 @@ if (window.SWRouter === undefined) {
             )
           ),
           React.createElement(
-            'p',
+            'h1',
             null,
-            'The app component'
+            'Planet List'
+          ),
+          theList,
+          React.createElement(
+            'div',
+            { className: 'text' },
+            React.createElement(
+              'h1',
+              null,
+              'Star Wars Films'
+            ),
+            React.createElement(
+              'p',
+              { className: 'paragraph' },
+              'Here are the list of films.'
+            )
           )
         );
       }
