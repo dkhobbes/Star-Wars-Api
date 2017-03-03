@@ -28,8 +28,7 @@ if (window.SWRouter === undefined) {window.SWRouter = {}; }
 
         extraInfo = <div>
           <img src= "https://s-media-cache-ak0.pinimg.com/736x/58/19/d9/5819d950c07b93e41f314655838038dc.jpg" className="sw-logo"/>
-          <div className="climate">Climate: {this.props.planet.climate}</div>
-          <div>Diameter: {this.props.planet.release_date}</div>
+          <div>Release: {this.props.planet.release_date}</div>
         </div>
       }
 
@@ -78,7 +77,7 @@ if (window.SWRouter === undefined) {window.SWRouter = {}; }
 
       if (this.state != null) {
         theList = <ul className="theList">
-        {this.state.apiResult.results.map((films, index) => { return <PlanetListItem key={index} films={films}/>; })}
+        {this.state.apiResult.results.map((films, index) => { return <FilmComponentItem key={index} films={films}/>; })}
         </ul>;
       }
 

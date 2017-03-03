@@ -163,14 +163,8 @@ if (window.SWRouter === undefined) {
             React.createElement('img', { src: 'https://s-media-cache-ak0.pinimg.com/736x/58/19/d9/5819d950c07b93e41f314655838038dc.jpg', className: 'sw-logo' }),
             React.createElement(
               'div',
-              { className: 'climate' },
-              'Climate: ',
-              this.props.planet.climate
-            ),
-            React.createElement(
-              'div',
               null,
-              'Diameter: ',
+              'Release: ',
               this.props.planet.release_date
             )
           );
@@ -245,7 +239,7 @@ if (window.SWRouter === undefined) {
             'ul',
             { className: 'theList' },
             this.state.apiResult.results.map(function (films, index) {
-              return React.createElement(PlanetListItem, { key: index, films: films });
+              return React.createElement(FilmComponentItem, { key: index, films: films });
             })
           );
         }
