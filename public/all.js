@@ -357,24 +357,185 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 if (window.SWRouter === undefined) {
   window.SWRouter = {};
 }
+
 (function () {
-  var PeopleComponent = function (_React$Component) {
-    _inherits(PeopleComponent, _React$Component);
+  var PeopleComponentItem = function (_React$Component) {
+    _inherits(PeopleComponentItem, _React$Component);
+
+    function PeopleComponentItem() {
+      _classCallCheck(this, PeopleComponentItem);
+
+      var _this = _possibleConstructorReturn(this, (PeopleComponentItem.__proto__ || Object.getPrototypeOf(PeopleComponentItem)).call(this));
+
+      _this.state = {
+        isSelected: false
+      };
+      return _this;
+    }
+
+    _createClass(PeopleComponentItem, [{
+      key: 'toggle',
+      value: function toggle() {
+        console.log('hi');
+        this.setState({
+          isSelected: !this.state.isSelected
+        });
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this2 = this;
+
+        var currentClass = 'planet';
+        var extraInfo;
+
+        var selectedClass;
+        if (this.state.isSelected) {
+          currentClass += ' on';
+
+          extraInfo = React.createElement(
+            'div',
+            null,
+            React.createElement('img', { src: 'https://s-media-cache-ak0.pinimg.com/736x/58/19/d9/5819d950c07b93e41f314655838038dc.jpg', className: 'sw-logo' }),
+            React.createElement(
+              'div',
+              { className: 'climate' },
+              'Climate: ',
+              this.props.planet.climate
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Diameter: ',
+              this.props.planet.diameter
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Gravity: ',
+              this.props.planet.gravity
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Orbital-Period: ',
+              this.props.planet.orbital_period
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Population: ',
+              this.props.planet.population
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Rotation-period: ',
+              this.props.planet.rotation_period
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Surface-Water: ',
+              this.props.planet.surface_water
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Terrain: ',
+              this.props.planet.terrain
+            ),
+            React.createElement(
+              'div',
+              null,
+              React.createElement(
+                'a',
+                { target: '_blank', href: this.props.planet.url },
+                this.props.planet.name,
+                ' URL link'
+              )
+            )
+          );
+        }
+
+        return React.createElement(
+          'li',
+          { className: currentClass, onClick: function onClick() {
+              _this2.toggle();
+            } },
+          React.createElement(
+            'div',
+            { className: 'name' },
+            this.props.planet.name
+          ),
+          extraInfo
+        );
+      }
+    }]);
+
+    return PeopleComponentItem;
+  }(React.Component);
+
+  var PeopleComponent = function (_React$Component2) {
+    _inherits(PeopleComponent, _React$Component2);
 
     function PeopleComponent() {
       _classCallCheck(this, PeopleComponent);
 
-      return _possibleConstructorReturn(this, (PeopleComponent.__proto__ || Object.getPrototypeOf(PeopleComponent)).apply(this, arguments));
+      return _possibleConstructorReturn(this, (PeopleComponent.__proto__ || Object.getPrototypeOf(PeopleComponent)).call(this));
     }
 
     _createClass(PeopleComponent, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        console.log('AppComponent.ComponentDidMount');
+        this.getTheData();
+      }
+    }, {
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        console.log('AppComponent.ComponentWillUnmount');
+      }
+    }, {
+      key: 'getTheData',
+      value: function getTheData() {
+        console.log('load the planets');
+      }
+    }, {
+      key: 'getTheData',
+      value: function getTheData() {
+        var _this4 = this;
+
+        $.ajax({
+          url: 'http://swapi.co/api/planets/'
+        }).done(function (data) {
+          console.log('got data', data);
+
+          _this4.setState({
+            apiResult: data
+          });
+        });
+      }
+    }, {
       key: 'render',
       value: function render() {
-        console.log('rendering FilmComponent');
+        console.log('render', this.state);
+        var theList;
+
+        if (this.state != null) {
+          theList = React.createElement(
+            'ul',
+            { className: 'theList' },
+            this.state.apiResult.results.map(function (planet, index) {
+              return React.createElement(PlanetListItem, { key: index, planet: planet });
+            })
+          );
+        }
 
         return React.createElement(
           'div',
-          null,
+          { className: 'planet-list' },
+          React.createElement('div', { className: 'image-holder' }),
           React.createElement(
             'header',
             null,
@@ -443,9 +604,29 @@ if (window.SWRouter === undefined) {
             )
           ),
           React.createElement(
-            'p',
+            'h1',
             null,
-            'The app component'
+            'Planet List'
+          ),
+          theList,
+          React.createElement(
+            'div',
+            { className: 'text' },
+            React.createElement(
+              'h1',
+              null,
+              'Star Wars Planets'
+            ),
+            React.createElement(
+              'p',
+              { className: 'paragraph' },
+              'Tatooine, Alderaan, Hoth, Bespin, and Yavin are names of Star Wars planets that all fans are quite familiar with nowadays. With Star Wars Rebels and several new movies on their way, we\u2019ll soon get acquainted with new planets we might have never heard of before. Or perhaps the names of these planets will sound familiar after all.'
+            ),
+            React.createElement(
+              'p',
+              { className: 'paragraph' },
+              'The Dark Horse Comics adaptation of The Star Wars brings to life the rough draft from 1974 by George Lucas, and the series enables us to get a better look at planets that appeared in the early imaginings of The Star Wars, such as Aquilae and Ophuchi. With the recent release of The Making of Return of the Jedi the circle of the classic \u201Cmaking of\u201D books by Jonathan Rinzler is complete. This trilogy offers a great amount of information about the different drafts that were written for the films.'
+            )
           )
         );
       }
@@ -762,24 +943,185 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 if (window.SWRouter === undefined) {
   window.SWRouter = {};
 }
+
 (function () {
-  var SpeciesComponent = function (_React$Component) {
-    _inherits(SpeciesComponent, _React$Component);
+  var SpeciesComponentItem = function (_React$Component) {
+    _inherits(SpeciesComponentItem, _React$Component);
+
+    function SpeciesComponentItem() {
+      _classCallCheck(this, SpeciesComponentItem);
+
+      var _this = _possibleConstructorReturn(this, (SpeciesComponentItem.__proto__ || Object.getPrototypeOf(SpeciesComponentItem)).call(this));
+
+      _this.state = {
+        isSelected: false
+      };
+      return _this;
+    }
+
+    _createClass(SpeciesComponentItem, [{
+      key: 'toggle',
+      value: function toggle() {
+        console.log('hi');
+        this.setState({
+          isSelected: !this.state.isSelected
+        });
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this2 = this;
+
+        var currentClass = 'planet';
+        var extraInfo;
+
+        var selectedClass;
+        if (this.state.isSelected) {
+          currentClass += ' on';
+
+          extraInfo = React.createElement(
+            'div',
+            null,
+            React.createElement('img', { src: 'https://s-media-cache-ak0.pinimg.com/736x/58/19/d9/5819d950c07b93e41f314655838038dc.jpg', className: 'sw-logo' }),
+            React.createElement(
+              'div',
+              { className: 'climate' },
+              'Climate: ',
+              this.props.planet.climate
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Diameter: ',
+              this.props.planet.diameter
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Gravity: ',
+              this.props.planet.gravity
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Orbital-Period: ',
+              this.props.planet.orbital_period
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Population: ',
+              this.props.planet.population
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Rotation-period: ',
+              this.props.planet.rotation_period
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Surface-Water: ',
+              this.props.planet.surface_water
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Terrain: ',
+              this.props.planet.terrain
+            ),
+            React.createElement(
+              'div',
+              null,
+              React.createElement(
+                'a',
+                { target: '_blank', href: this.props.planet.url },
+                this.props.planet.name,
+                ' URL link'
+              )
+            )
+          );
+        }
+
+        return React.createElement(
+          'li',
+          { className: currentClass, onClick: function onClick() {
+              _this2.toggle();
+            } },
+          React.createElement(
+            'div',
+            { className: 'name' },
+            this.props.planet.name
+          ),
+          extraInfo
+        );
+      }
+    }]);
+
+    return SpeciesComponentItem;
+  }(React.Component);
+
+  var SpeciesComponent = function (_React$Component2) {
+    _inherits(SpeciesComponent, _React$Component2);
 
     function SpeciesComponent() {
       _classCallCheck(this, SpeciesComponent);
 
-      return _possibleConstructorReturn(this, (SpeciesComponent.__proto__ || Object.getPrototypeOf(SpeciesComponent)).apply(this, arguments));
+      return _possibleConstructorReturn(this, (SpeciesComponent.__proto__ || Object.getPrototypeOf(SpeciesComponent)).call(this));
     }
 
     _createClass(SpeciesComponent, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        console.log('AppComponent.ComponentDidMount');
+        this.getTheData();
+      }
+    }, {
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        console.log('AppComponent.ComponentWillUnmount');
+      }
+    }, {
+      key: 'getTheData',
+      value: function getTheData() {
+        console.log('load the planets');
+      }
+    }, {
+      key: 'getTheData',
+      value: function getTheData() {
+        var _this4 = this;
+
+        $.ajax({
+          url: 'http://swapi.co/api/planets/'
+        }).done(function (data) {
+          console.log('got data', data);
+
+          _this4.setState({
+            apiResult: data
+          });
+        });
+      }
+    }, {
       key: 'render',
       value: function render() {
-        console.log('rendering FilmComponent');
+        console.log('render', this.state);
+        var theList;
+
+        if (this.state != null) {
+          theList = React.createElement(
+            'ul',
+            { className: 'theList' },
+            this.state.apiResult.results.map(function (planet, index) {
+              return React.createElement(PlanetListItem, { key: index, planet: planet });
+            })
+          );
+        }
 
         return React.createElement(
           'div',
-          null,
+          { className: 'planet-list' },
+          React.createElement('div', { className: 'image-holder' }),
           React.createElement(
             'header',
             null,
@@ -848,9 +1190,29 @@ if (window.SWRouter === undefined) {
             )
           ),
           React.createElement(
-            'p',
+            'h1',
             null,
-            'The app component'
+            'Planet List'
+          ),
+          theList,
+          React.createElement(
+            'div',
+            { className: 'text' },
+            React.createElement(
+              'h1',
+              null,
+              'Star Wars Planets'
+            ),
+            React.createElement(
+              'p',
+              { className: 'paragraph' },
+              'Tatooine, Alderaan, Hoth, Bespin, and Yavin are names of Star Wars planets that all fans are quite familiar with nowadays. With Star Wars Rebels and several new movies on their way, we\u2019ll soon get acquainted with new planets we might have never heard of before. Or perhaps the names of these planets will sound familiar after all.'
+            ),
+            React.createElement(
+              'p',
+              { className: 'paragraph' },
+              'The Dark Horse Comics adaptation of The Star Wars brings to life the rough draft from 1974 by George Lucas, and the series enables us to get a better look at planets that appeared in the early imaginings of The Star Wars, such as Aquilae and Ophuchi. With the recent release of The Making of Return of the Jedi the circle of the classic \u201Cmaking of\u201D books by Jonathan Rinzler is complete. This trilogy offers a great amount of information about the different drafts that were written for the films.'
+            )
           )
         );
       }
@@ -1131,24 +1493,133 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 if (window.SWRouter === undefined) {
   window.SWRouter = {};
 }
+
 (function () {
-  var VehiclesComponent = function (_React$Component) {
-    _inherits(VehiclesComponent, _React$Component);
+  var VehiclesComponentItem = function (_React$Component) {
+    _inherits(VehiclesComponentItem, _React$Component);
+
+    function VehiclesComponentItem() {
+      _classCallCheck(this, VehiclesComponentItem);
+
+      var _this = _possibleConstructorReturn(this, (VehiclesComponentItem.__proto__ || Object.getPrototypeOf(VehiclesComponentItem)).call(this));
+
+      _this.state = {
+        isSelected: false
+      };
+      return _this;
+    }
+
+    _createClass(VehiclesComponentItem, [{
+      key: 'toggle',
+      value: function toggle() {
+        console.log('hi');
+        this.setState({
+          isSelected: !this.state.isSelected
+        });
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this2 = this;
+
+        var currentClass = 'planet';
+        var extraInfo;
+
+        var selectedClass;
+        if (this.state.isSelected) {
+          currentClass += ' on';
+
+          extraInfo = React.createElement(
+            'div',
+            null,
+            React.createElement('img', { src: 'https://s-media-cache-ak0.pinimg.com/736x/58/19/d9/5819d950c07b93e41f314655838038dc.jpg', className: 'sw-logo' }),
+            React.createElement(
+              'div',
+              null,
+              'Release: ',
+              this.props.planet.release_date
+            )
+          );
+        }
+
+        return React.createElement(
+          'li',
+          { className: currentClass, onClick: function onClick() {
+              _this2.toggle();
+            } },
+          React.createElement(
+            'div',
+            { className: 'name' },
+            this.props.films.title
+          ),
+          extraInfo
+        );
+      }
+    }]);
+
+    return VehiclesComponentItem;
+  }(React.Component);
+
+  var VehiclesComponent = function (_React$Component2) {
+    _inherits(VehiclesComponent, _React$Component2);
 
     function VehiclesComponent() {
       _classCallCheck(this, VehiclesComponent);
 
-      return _possibleConstructorReturn(this, (VehiclesComponent.__proto__ || Object.getPrototypeOf(VehiclesComponent)).apply(this, arguments));
+      return _possibleConstructorReturn(this, (VehiclesComponent.__proto__ || Object.getPrototypeOf(VehiclesComponent)).call(this));
     }
 
     _createClass(VehiclesComponent, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        console.log('AppComponent.ComponentDidMount');
+        this.getTheData();
+      }
+    }, {
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        console.log('AppComponent.ComponentWillUnmount');
+      }
+    }, {
+      key: 'getTheData',
+      value: function getTheData() {
+        console.log('load the planets');
+      }
+    }, {
+      key: 'getTheData',
+      value: function getTheData() {
+        var _this4 = this;
+
+        $.ajax({
+          url: 'http://swapi.co/api/films/'
+        }).done(function (data) {
+          console.log('got data', data);
+
+          _this4.setState({
+            apiResult: data
+          });
+        });
+      }
+    }, {
       key: 'render',
       value: function render() {
-        console.log('rendering FilmComponent');
+        console.log('render', this.state);
+        var theList;
+
+        if (this.state != null) {
+          theList = React.createElement(
+            'ul',
+            { className: 'theList' },
+            this.state.apiResult.results.map(function (films, index) {
+              return React.createElement(FilmComponentItem, { key: index, films: films });
+            })
+          );
+        }
 
         return React.createElement(
           'div',
-          null,
+          { className: 'planet-list' },
+          React.createElement('div', { className: 'image-holder' }),
           React.createElement(
             'header',
             null,
@@ -1217,9 +1688,24 @@ if (window.SWRouter === undefined) {
             )
           ),
           React.createElement(
-            'p',
+            'h1',
             null,
-            'The app component'
+            'Planet List'
+          ),
+          theList,
+          React.createElement(
+            'div',
+            { className: 'text' },
+            React.createElement(
+              'h1',
+              null,
+              'Star Wars Films'
+            ),
+            React.createElement(
+              'p',
+              { className: 'paragraph' },
+              'Here are the list of films.'
+            )
           )
         );
       }
