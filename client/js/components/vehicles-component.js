@@ -33,7 +33,7 @@ if (window.SWRouter === undefined) {window.SWRouter = {}; }
       }
 
       return <li className={currentClass} onClick={() => {this.toggle(); }}>
-      <div className="name">{this.props.films.title}</div>
+      <div className="name">{this.props.vehichles.title}</div>
       {extraInfo}
       </li>
     }
