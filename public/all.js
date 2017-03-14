@@ -332,7 +332,7 @@ if (window.SWRouter === undefined) {
             React.createElement(
               'p',
               { className: 'paragraph' },
-              'Here are the list of films.'
+              'This is a list of Star Wars films and television series. The films include two complete trilogies: the original trilogy released between 1977 and 1983, and the prequel trilogy released between 1999 and 2005. A third trilogy that follows the first two began in 2015. Other films have taken or will take place between the trilogy films. There have also been several Star Wars television series and television movies, with the first being released in 1978.'
             )
           )
         );
@@ -1550,7 +1550,7 @@ if (window.SWRouter === undefined) {
           React.createElement(
             'div',
             { className: 'name' },
-            this.props.films.title
+            this.props.vehichles.title
           ),
           extraInfo
         );
